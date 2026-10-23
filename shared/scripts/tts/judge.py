@@ -37,9 +37,13 @@ def main():
         got, total = 0.0, 0
         detail = {}
         for key, path in run['files'].items():
-            if not path or not os.path.exists(path):
+            if not path or not os.path.exists(path) or os.path.getsize(path) < 1024:
                 continue
-            audio = load(path)
+            try:
+                audio = load(path)
+            except Exception as exc:                  # noqa: BLE001
+                print(f'  skip {path}: {exc}')
+                continue
             segs, _ = model.transcribe(audio, language='fa', beam_size=5)
             text = ' '.join(s.text for s in segs).strip()
             sim = difflib.SequenceMatcher(None, norm(lines[key]), norm(text)).ratio()
