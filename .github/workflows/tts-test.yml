@@ -1,0 +1,58 @@
+name: TTS lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      engines:
+        description: 'موتورها (piper:amir, edge:fa-IR-FaridNeural, ...)'
+        required: true
+        default: 'edge:fa-IR-FaridNeural,edge:fa-IR-DilaraNeural,piper:amir,piper:gyro,piper:ganji'
+
+permissions:
+  contents: read
+
+jobs:
+  tts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب موتورها
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install piper-tts edge-tts
+          piper --help >/dev/null 2>&1 && echo "piper ok" || echo "piper cli missing"
+          edge-tts --list-voices 2>/dev/null | grep -i "fa-IR" || true
+
+      - name: ساخت نمونه‌ها
+        run: |
+          python shared/scripts/tts/make_samples.py --out tts-lab --engines "${{ inputs.engines }}"
+
+      - name: داوری با Whisper
+        continue-on-error: true
+        run: |
+          python -m pip install faster-whisper
+          python shared/scripts/tts/judge.py tts-lab | tee tts-lab/judgement.md
+
+      - name: گزارش
+        run: |
+          {
+            echo "# نتیجهٔ آزمایش صدا"
+            echo
+            echo "ساخته‌شده: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo
+            ls -la tts-lab
+            echo
+            [ -f tts-lab/judgement.md ] && cat tts-lab/judgement.md
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tts-samples
+          path: tts-lab
+          retention-days: 14
