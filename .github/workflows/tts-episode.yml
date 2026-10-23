@@ -1,0 +1,64 @@
+name: TTS full episode
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        required: true
+        default: 'episodes/ep01-instagram-money'
+      engines:
+        required: true
+        default: 'edge:fa-IR-FaridNeural,piper:ganji'
+
+permissions:
+  contents: read
+
+jobs:
+  synth:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install piper-tts edge-tts
+
+      - name: ساخت کل روایت با هر موتور
+        run: |
+          IFS=',' read -ra LIST <<< "${{ inputs.engines }}"
+          for e in "${LIST[@]}"; do
+            key=$(echo "$e" | tr ':' '-')
+            echo "=== $e" 
+            python shared/scripts/tts/synth_episode.py "${{ inputs.episode }}" \
+              --engine "$e" --out "out/$key" || echo "FAILED: $e"
+          done
+          ls -la out/*
+
+      - name: خلاصه
+        run: |
+          {
+            echo "# روایت کامل با موتورهای مختلف"
+            for f in out/*/report.json; do
+              python - "$f" <<'PY'
+import json, sys
+r = json.load(open(sys.argv[1]))
+print(f"\n**{r['engine']}** — صدا {r['total_audio_seconds']}s · ساخت {r['total_build_seconds']}s · {r['total_chars']} کاراکتر")
+print('| بخش | ثانیه | ساخت |')
+print('|---|---|---|')
+for s in r['segments']:
+    print(f"| {s['id']} | {s['seconds']} | {s['build_seconds']}s |")
+PY
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: episode-audio
+          path: out
+          retention-days: 14
