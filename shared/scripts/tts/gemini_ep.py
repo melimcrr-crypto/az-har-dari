@@ -25,12 +25,11 @@ import urllib.request
 API = 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent'
 
 STYLE = (
-    "مثل یک آدم واقعی که برای یک دوست تعریف می‌کند حرف بزن: محاوره‌ای، گرم، بی‌تکلف و کمی سریع. "
-    "نه لحن گویندهٔ خبر، نه لحن تبلیغاتی، نه لحن کتاب صوتی. نفس‌گیری طبیعی، مکث کوتاه انسانی "
-    "پشت ویرگول و نقطه، و تأکید نامنظم روی کلمه‌های مهم. "
-    "تلفظ: فارسی معیار تهرانی، بدون کشیدن واکه‌ها، بدون غلط تلفظی، حروف فارسی را درست و کامل "
-    "ادا کن (پ، چ، ژ، گ را درست بخوان)، کسرهٔ اضافه را وصل بگو و کلمه‌ها را نشکن."
+    "محاوره‌ای، گرم و بی‌تکلف، با سرعت طبیعی پادکست؛ مثل کسی که برای یک دوست تعریف می‌کند. "
+    "نه لحن خبر، نه لحن تبلیغاتی، نه لحن کتاب صوتی. کلمه‌ها را نکش و مکث طولانی نگذار، "
+    "اما پشت ویرگول و نقطه نفس طبیعی بگیر. تلفظ فارسی معیار تهرانی، بدون غلط تلفظی."
 )
+STYLE_SHORT = "محاوره‌ای و گرم، با سرعت طبیعی پادکست. فارسی معیار تهرانی، بدون غلط تلفظی."
 
 DIGITS = {'0': 'صفر', '1': 'یک', '2': 'دو', '3': 'سه', '4': 'چهار', '5': 'پنج',
           '6': 'شش', '7': 'هفت', '8': 'هشت', '9': 'نه'}
@@ -106,7 +105,24 @@ def chunks(text, limit=1200):
     return out or [text]
 
 
-def synth(model, voice, text, key, retries=3):
+KEYS = []
+_ki = {'i': 0}
+
+
+def keys_from_env():
+    raw = os.environ.get('GEMINI_API_KEYS') or os.environ.get('GEMINI_API_KEY') or ''
+    return [k.strip() for k in raw.replace('\n', ',').split(',') if k.strip()]
+
+
+def next_key():
+    if not KEYS:
+        return ''
+    k = KEYS[_ki['i'] % len(KEYS)]
+    _ki['i'] += 1
+    return k
+
+
+def synth(model, voice, text, key, retries=4):
     body = json.dumps({
         'contents': [{'parts': [{'text': f'{STYLE}\n\n{text}'}]}],
         'generationConfig': {
@@ -119,15 +135,39 @@ def synth(model, voice, text, key, retries=3):
                                           'Content-Type': 'application/json'})
     last = None
     for attempt in range(retries):
+        style = STYLE if attempt == 0 else STYLE_SHORT
+        body = json.dumps({
+            'contents': [{'parts': [{'text': f'{style}\n\n{text}'}]}],
+            'generationConfig': {
+                'responseModalities': ['AUDIO'],
+                'speechConfig': {'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': voice}}},
+            },
+        }).encode()
+        req = urllib.request.Request(API.format(model=model), data=body,
+                                     headers={'x-goog-api-key': key or next_key(),
+                                              'Content-Type': 'application/json'})
         try:
             with urllib.request.urlopen(req, timeout=900) as r:
                 data = json.loads(r.read())
-            b64 = data['candidates'][0]['content']['parts'][0]['inlineData']['data']
-            mime = data['candidates'][0]['content']['parts'][0]['inlineData'].get('mimeType', '')
-            rate = 24000 if '24000' in mime else 24000
+            parts_ = data['candidates'][0]['content']['parts']
+            inline = next((p['inlineData'] for p in parts_ if 'inlineData' in p), None)
+            if inline is None:
+                last = 'پاسخ بدون صدا: ' + str(data)[:160]
+                key = next_key()
+                time.sleep(1 + attempt)
+                continue
+            data['candidates'][0]['content']['parts'][0]['inlineData'] = inline
+            b64 = inline['data']
+            mime = inline.get('mimeType', '')
+            rate = 24000
+            m2 = __import__('re').search(r'rate=(\d+)', mime)
+            if m2:
+                rate = int(m2.group(1))
             return base64.b64decode(b64), rate
         except urllib.error.HTTPError as exc:
             last = f'{exc.code} {exc.read().decode()[:200]}'
+            if exc.code in (429, 403, 400):
+                key = next_key()
         except Exception as exc:                          # noqa: BLE001
             last = str(exc)
         time.sleep(2 + attempt * 3)
@@ -142,13 +182,15 @@ def ffmpeg():
     return imageio_ffmpeg.get_ffmpeg_exe()
 
 
-def master(src_wav, out_mp3):
+def master(src_wav, out_mp3, tempo=1.0):
     chain = ('highpass=f=75,'
              'equalizer=f=200:t=q:w=1.1:g=1.4,'
              'equalizer=f=2600:t=q:w=1.0:g=1.0,'
              'equalizer=f=7000:t=q:w=1.4:g=-1.4,'
              'acompressor=threshold=-19dB:ratio=2.4:attack=8:release=180:makeup=1.5,'
-             'loudnorm=I=-16:TP=-1.5:LRA=10,aresample=48000')
+             'loudnorm=I=-16:TP=-1.5:LRA=10,'
+             + (f'atempo={tempo:.3f},' if abs(tempo - 1.0) > 0.001 else '')
+             + 'aresample=48000')
     subprocess.run([ffmpeg(), '-y', '-loglevel', 'error', '-i', src_wav, '-af', chain,
                     '-ac', '1', '-c:a', 'libmp3lame', '-b:a', '192k', out_mp3], check=True)
 
@@ -158,11 +200,16 @@ def main():
     ap.add_argument('episode')
     ap.add_argument('--voice', default=os.environ.get('GEMINI_TTS_VOICE', 'Charon'))
     ap.add_argument('--model', default=os.environ.get('GEMINI_TTS_MODEL',
-                                                      'gemini-2.5-pro-preview-tts'))
+                                                      'gemini-2.5-flash-preview-tts'))
+    ap.add_argument('--tempo', type=float, default=float(os.environ.get('GEMINI_TTS_TEMPO', '1.0')),
+                    help='سرعت نهایی گفتار بدون تغییر گام صدا')
     args = ap.parse_args()
-    key = os.environ.get('GEMINI_API_KEY') or ''
+    global KEYS
+    KEYS = keys_from_env()
+    key = KEYS[0] if KEYS else ''
     if not key:
-        raise SystemExit('GEMINI_API_KEY تنظیم نشده است')
+        raise SystemExit('GEMINI_API_KEYS (یا GEMINI_API_KEY) تنظیم نشده است')
+    print(f'🔑 {len(KEYS)} کلید · مدل {args.model} · صدا {args.voice} · tempo {args.tempo}', flush=True)
 
     ep_dir = args.episode
     script = json.load(open(os.path.join(ep_dir, 'audio', 'script.json'), encoding='utf-8'))
@@ -176,7 +223,7 @@ def main():
     tmp_dir = os.path.join(ep_dir, 'audio', '_gemini')
     os.makedirs(tmp_dir, exist_ok=True)
 
-    report = {'voice': args.voice, 'model': args.model, 'segments': []}
+    report = {'voice': args.voice, 'model': args.model, 'tempo': args.tempo, 'segments': []}
     durations = {}
     t_all = time.time()
     total_chars = 0
@@ -211,7 +258,7 @@ def main():
         subprocess.run([ffmpeg(), '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0',
                         '-i', lst, '-ar', '24000', '-ac', '1', joined], check=True)
         out_mp3 = os.path.join(ep_dir, 'audio', f'{sid}.mp3')
-        master(joined, out_mp3)
+        master(joined, out_mp3, tempo=args.tempo)
         d = None
         probe = subprocess.run([ffmpeg(), '-hide_banner', '-i', out_mp3],
                                capture_output=True, text=True).stderr

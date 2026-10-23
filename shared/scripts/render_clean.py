@@ -46,6 +46,7 @@ def main():
     ap.add_argument('--crf', default='21')
     ap.add_argument('--fps', type=int, default=25)
     ap.add_argument('--preset', default='medium')
+    ap.add_argument('--grade', default='1', help='گرید نرم رنگی (۰ خاموش)')
     args = ap.parse_args()
 
     ep_dir = args.episode
@@ -137,9 +138,13 @@ def main():
            '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(args.fps), '-i', '-',
            '-i', audio,
            '-c:v', 'libx264', '-preset', args.preset, '-crf', str(args.crf), '-pix_fmt', 'yuv420p',
-           '-profile:v', 'high', '-tune', 'stillimage', '-g', '250', '-x264-params', 'ref=3:bframes=3',
+           '-profile:v', 'high', '-g', '250', '-x264-params', 'ref=3:bframes=3:aq-mode=3',
            '-c:a', 'aac', '-b:a', '160k', '-shortest',
            '-movflags', '+faststart', out]
+    if args.grade not in ('0', '', 'off'):
+        i = cmd.index('-c:v')
+        cmd[i:i] = ['-vf', 'eq=contrast=1.025:saturation=1.05:gamma=1.01,'
+                    'unsharp=3:3:0.25,format=yuv420p']
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 
     def shot_at(tt):

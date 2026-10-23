@@ -14,7 +14,15 @@ on:
       model:
         description: 'مدل Gemini TTS'
         required: true
-        default: 'gemini-2.5-pro-preview-tts'
+        default: 'gemini-2.5-flash-preview-tts'
+      tempo:
+        description: 'سرعت گفتار (۱ = طبیعی)'
+        required: true
+        default: '1.03'
+      target:
+        description: 'طول هدف ویدیو، ثانیه'
+        required: true
+        default: '480'
       crf:
         description: 'کیفیت (۱۸ بهتر، ۲۳ کوچک‌تر)'
         required: true
@@ -59,7 +67,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_TTS_VOICE: ${{ inputs.voice }}
           GEMINI_TTS_MODEL: ${{ inputs.model }}
-        run: python shared/scripts/tts/gemini_ep.py "${{ inputs.episode }}" --voice "${{ inputs.voice }}" --model "${{ inputs.model }}"
+        run: python shared/scripts/tts/gemini_ep.py "${{ inputs.episode }}" --voice "${{ inputs.voice }}" --model "${{ inputs.model }}" --tempo "${{ inputs.tempo }}"
 
       - name: بررسی تلفظ با Whisper
         if: ${{ inputs.verify }}
@@ -69,13 +77,16 @@ jobs:
           python shared/scripts/tts/check_pron.py "${{ inputs.episode }}"
 
       - name: زمان‌بندی از صدای واقعی
-        run: python shared/scripts/build_timings.py "${{ inputs.episode }}"
+        run: python shared/scripts/build_timings.py "${{ inputs.episode }}" --target "${{ inputs.target }}"
+
+      - name: چسباندن بخش‌های صوتی
+        run: python shared/scripts/merge_audio.py "${{ inputs.episode }}"
 
       - name: افکت صدا و میکس (بدون موزیک)
         run: python shared/scripts/prepare_audio_sfx.py "${{ inputs.episode }}"
 
       - name: رندر تمیز (بدون متن روی تصویر)
-        run: python shared/scripts/render_clean.py "${{ inputs.episode }}" --crf "${{ inputs.crf }}"
+        run: python shared/scripts/render_clean.py "${{ inputs.episode }}" --crf "${{ inputs.crf }}" --fps 24
 
       - name: گزارش
         run: python shared/scripts/summary_final.py >> "$GITHUB_STEP_SUMMARY"
@@ -93,6 +104,6 @@ jobs:
           tag_name: ${{ inputs.episode }}-${{ github.run_number }}
           name: '${{ inputs.episode }} · رندر ${{ github.run_number }}'
           body: |
-            صدا: Gemini TTS (`${{ inputs.voice }}`) · تدوین تمیز بدون متن روی تصویر · افکت صدا
+            صدا: Gemini TTS (`${{ inputs.voice }}` / `${{ inputs.model }}`) · تدوین تمیز بدون متن روی تصویر · افکت صدا · بدون موزیک
             کامیت `${{ github.sha }}`
           files: ${{ inputs.episode }}/output/*.mp4
