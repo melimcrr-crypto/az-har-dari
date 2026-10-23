@@ -1,0 +1,98 @@
+name: Render final (Gemini voice + clean edit)
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: 'پوشهٔ قسمت'
+        required: true
+        default: 'episodes/ep02-crane-operator'
+      voice:
+        description: 'صدای Gemini (Charon, Kore, Puck, Fenrir, Aoede)'
+        required: true
+        default: 'Charon'
+      model:
+        description: 'مدل Gemini TTS'
+        required: true
+        default: 'gemini-2.5-pro-preview-tts'
+      crf:
+        description: 'کیفیت (۱۸ بهتر، ۲۳ کوچک‌تر)'
+        required: true
+        default: '21'
+      verify:
+        description: 'بررسی تلفظ با Whisper؟'
+        type: boolean
+        default: true
+      release:
+        description: 'انتشار در Releases؟'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: پیش‌نیازها
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pillow numpy soundfile imageio-ffmpeg
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu
+          ffmpeg -version | head -1
+
+      - name: بررسی کامل بودن نماها
+        run: python shared/scripts/check_missing.py "${{ inputs.episode }}"
+
+      - name: روایت با Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_TTS_VOICE: ${{ inputs.voice }}
+          GEMINI_TTS_MODEL: ${{ inputs.model }}
+        run: python shared/scripts/tts/gemini_ep.py "${{ inputs.episode }}" --voice "${{ inputs.voice }}" --model "${{ inputs.model }}"
+
+      - name: بررسی تلفظ با Whisper
+        if: ${{ inputs.verify }}
+        continue-on-error: true
+        run: |
+          python -m pip install faster-whisper
+          python shared/scripts/tts/check_pron.py "${{ inputs.episode }}"
+
+      - name: زمان‌بندی از صدای واقعی
+        run: python shared/scripts/build_timings.py "${{ inputs.episode }}"
+
+      - name: افکت صدا و میکس (بدون موزیک)
+        run: python shared/scripts/prepare_audio_sfx.py "${{ inputs.episode }}"
+
+      - name: رندر تمیز (بدون متن روی تصویر)
+        run: python shared/scripts/render_clean.py "${{ inputs.episode }}" --crf "${{ inputs.crf }}"
+
+      - name: گزارش
+        run: python shared/scripts/summary_final.py >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: final-video
+          path: ${{ inputs.episode }}/output/*.mp4
+          retention-days: 14
+
+      - name: انتشار در Releases
+        if: ${{ inputs.release }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.episode }}-${{ github.run_number }}
+          name: '${{ inputs.episode }} · رندر ${{ github.run_number }}'
+          body: |
+            صدا: Gemini TTS (`${{ inputs.voice }}`) · تدوین تمیز بدون متن روی تصویر · افکت صدا
+            کامیت `${{ github.sha }}`
+          files: ${{ inputs.episode }}/output/*.mp4
