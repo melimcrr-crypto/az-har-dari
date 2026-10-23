@@ -45,8 +45,24 @@ jobs:
       - name: خلاصه
         run: python shared/scripts/tts/summary.py >> "$GITHUB_STEP_SUMMARY"
 
+      - name: بستهٔ کوچک برای بررسی
+        run: |
+          mkdir -p small
+          for d in out/*/; do
+            key=$(basename "$d")
+            cp "$d/report.json" "small/$key-report.json"
+            for f in "$d"s01.mp3 "$d"s02.mp3; do [ -f "$f" ] && cp "$f" "small/$key-$(basename "$f")"; done
+          done
+          du -sh small && ls -la small
+
       - uses: actions/upload-artifact@v4
         with:
           name: episode-audio
           path: out
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: episode-preview-small
+          path: small
           retention-days: 14
