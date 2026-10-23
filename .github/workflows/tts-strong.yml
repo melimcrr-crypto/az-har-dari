@@ -1,0 +1,82 @@
+name: TTS strong
+
+on:
+  workflow_dispatch:
+    inputs:
+      engines:
+        description: 'audio8, gemini, eleven, edge (با کاما)'
+        required: true
+        default: 'audio8'
+      eleven_voice:
+        description: 'شناسهٔ صدا در ElevenLabs (اختیاری)'
+        required: false
+        default: 'pNInz6obpgDQGcFmaJgB'
+      gemini_voice:
+        description: 'نام صدای Gemini'
+        required: false
+        default: 'Charon'
+
+permissions:
+  contents: read
+
+jobs:
+  strong:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      ELEVEN_VOICE_ID: ${{ inputs.eleven_voice }}
+      GEMINI_TTS_VOICE: ${{ inputs.gemini_voice }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: ابزار پایه
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install edge-tts
+
+      - name: Audio8 فارسی (Apache-2.0)
+        if: contains(inputs.engines, 'audio8')
+        continue-on-error: true
+        run: |
+          python -m pip install "transformers>=4.57,<5" torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install soundfile num2fawords
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          git clone --depth 1 https://github.com/ard9/Audio8-Persian-TTS.git
+          python shared/scripts/tts/strong.py --engine audio8 --out out/audio8
+
+      - name: Gemini TTS
+        if: contains(inputs.engines, 'gemini') && env.GEMINI_API_KEY != ''
+        continue-on-error: true
+        run: python shared/scripts/tts/strong.py --engine gemini --out out/gemini
+
+      - name: ElevenLabs
+        if: contains(inputs.engines, 'eleven') && env.ELEVENLABS_API_KEY != ''
+        continue-on-error: true
+        run: python shared/scripts/tts/strong.py --engine eleven --out out/eleven
+
+      - name: edge (خط پایه)
+        if: contains(inputs.engines, 'edge')
+        continue-on-error: true
+        run: python shared/scripts/tts/strong.py --engine edge --out out/edge
+
+      - name: یکجا کردن خروجی‌ها
+        run: |
+          ls -R out || true
+          mkdir -p small
+          find out -name "*.wav" -o -name "*.mp3" | while read f; do
+            b=$(basename "$f"); d=$(basename "$(dirname "$f")")
+            ffmpeg -y -loglevel error -i "$f" -ac 1 -c:a libmp3lame -b:a 128k "small/$d-$b.mp3"
+          done
+          ls -la small
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tts-strong
+          path: small
+          retention-days: 14
