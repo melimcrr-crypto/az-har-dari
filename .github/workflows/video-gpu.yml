@@ -1,0 +1,67 @@
+name: Video GPU
+
+# روی رانر GPU اجرا می‌شود. سه راه:
+#  1) GitHub Team/Enterprise + GPU larger runner  → runner: linux_4_core_gpu  ($۰٫۰۵۲/دقیقه، T4 16GB)
+#  2) رانر GPU شخص ثالث (Starsling/SuperCI)      → runner: starsling/gpu=rtx4090
+#  3) رانر سلف‌هاستد با برچسب gpu                 → runner: self-hosted
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'برچسب رانر GPU'
+        required: true
+        default: 'linux_4_core_gpu'
+      model:
+        description: 'wan21-1.3b (سبک، T4) یا wan22-5b (بهتر، ۱۶GB+)'
+        required: true
+        default: 'wan21-1.3b'
+      prompt:
+        description: 'پرامپت حرکت دوربین/صحنه'
+        required: true
+        default: 'slow cinematic push-in, subtle parallax, warm evening light, dust motes'
+      image:
+        description: 'مسیر تصویر پایه در ریپو (خالی = متن به ویدیو)'
+        required: false
+        default: 'episodes/ep01-instagram-money/shots/01-thumb-on-phone/image/01-thumb-on-phone.jpg'
+      seconds:
+        description: 'طول کلیپ'
+        required: true
+        default: '5'
+
+permissions:
+  contents: read
+
+jobs:
+  video:
+    runs-on: ${{ inputs.runner }}
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: بررسی GPU
+        run: |
+          nvidia-smi || (echo "::error::این رانر GPU ندارد" && exit 1)
+
+      - name: نصب
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cu124
+          python -m pip install "diffusers>=0.35" transformers accelerate imageio imageio-ffmpeg pillow
+
+      - name: ساخت کلیپ
+        env:
+          MODEL: ${{ inputs.model }}
+          PROMPT: ${{ inputs.prompt }}
+          IMAGE: ${{ inputs.image }}
+          SECONDS_IN: ${{ inputs.seconds }}
+        run: python shared/scripts/video/gpu_clip.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clip
+          path: out/*.mp4
+          retention-days: 7
