@@ -58,7 +58,7 @@ def main():
             f.write(f"> در این دور پیام فقط همین {len(batch)} نما را بساز، بعد push کن و متوقف شو.\n\n")
             for s in batch:
                 f.write(f"## {s['id']}\n\n- مسیر: `shots/{s['id']}/image/`\n")
-                f.write(f"- کاراکتر: {'بله — character_sheet.png را ضمیمه کن' if s.get('character') else 'نه'}\n\n")
+                f.write(f"- کاراکتر: {'بله — character_sheet_crane.jpg را ضمیمه کن' if s.get('character') else 'نه'}\n\n")
                 f.write("```text\n" + s['prompt'] + "\n```\n\n")
         print(f'✅ {len(batch)} پرامپت → {out}  (باقی‌مانده: {len(missing) - len(batch)})')
         return
