@@ -117,6 +117,7 @@ def main():
     ap.add_argument('--target', type=float, default=0.0,
                     help='طول هدف ویدیو (ثانیه)؛ فقط اگر صدا کوتاه‌تر بود، با مکث پر می‌شود')
     ap.add_argument('--gap-max', type=float, default=2.2, help='بیشترین مکث بین بخش‌ها')
+    ap.add_argument('--tail-max', type=float, default=3.5, help='بیشترین سکوت پایانی')
     args = ap.parse_args()
 
     ep_dir = args.episode
@@ -133,7 +134,7 @@ def main():
         gap += max(0.0, per)
         raw = lead + tail + sum(durs.values()) + gap * (len(segs) - 1)
         if raw < args.target:
-            tail += args.target - raw          # باقی‌مانده: نگه‌داشتن نمای آخر
+            tail += min(args.target - raw, max(0.0, args.tail_max - tail))
             raw = lead + tail + sum(durs.values()) + gap * (len(segs) - 1)
 
     timed = {}

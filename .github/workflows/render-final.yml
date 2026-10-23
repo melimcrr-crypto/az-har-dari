@@ -70,15 +70,17 @@ jobs:
           GEMINI_TTS_MODEL: ${{ inputs.model }}
         run: python shared/scripts/tts/gemini_ep.py "${{ inputs.episode }}" --voice "${{ inputs.voice }}" --model "${{ inputs.model }}" --tempo "${{ inputs.tempo }}"
 
-      - name: بررسی تلفظ با Whisper
+      - name: بررسی تلفظ با Gemini
         if: ${{ inputs.verify }}
         continue-on-error: true
+        env:
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python -m pip install faster-whisper
           python shared/scripts/tts/check_pron.py "${{ inputs.episode }}"
 
       - name: زمان‌بندی از صدای واقعی
-        run: python shared/scripts/build_timings.py "${{ inputs.episode }}" --target "${{ inputs.target }}"
+        run: python shared/scripts/build_timings.py "${{ inputs.episode }}" --target "${{ inputs.target }}" --gap 0.60 --gap-max 1.60 --tail-max 3.50
 
       - name: چسباندن بخش‌های صوتی
         run: python shared/scripts/merge_audio.py "${{ inputs.episode }}"
