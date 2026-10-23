@@ -24,8 +24,16 @@ LINES = {
 }
 
 
+def ffmpeg_bin():
+    import shutil
+    if shutil.which('ffmpeg'):
+        return 'ffmpeg'
+    import imageio_ffmpeg
+    return imageio_ffmpeg.get_ffmpeg_exe()
+
+
 def mp3(src, dst, sr=None):
-    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-i', src]
+    cmd = [ffmpeg_bin(), '-y', '-loglevel', 'error', '-i', src]
     if sr:
         cmd += ['-ar', str(sr)]
     cmd += ['-ac', '1', '-c:a', 'libmp3lame', '-b:a', '128k', dst]
@@ -94,7 +102,7 @@ def engine_gemini(texts, out):
         # گوگل ۲۴ کیلوهرتز تک‌کانال خام می‌دهد؛ با ffmpeg بسته‌بندی می‌شود
         pcm_path = os.path.join(out, f'gemini-{name}.pcm')
         os.replace(wav_path, pcm_path)
-        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 's16le', '-ar', '24000',
+        subprocess.run([ffmpeg_bin(), '-y', '-loglevel', 'error', '-f', 's16le', '-ar', '24000',
                         '-ac', '1', '-i', pcm_path, wav_path], check=True)
         os.remove(pcm_path)
         res[name] = wav_path
@@ -151,10 +159,6 @@ def main():
     files = fn(LINES, args.out)
     files = {k: v for k, v in files.items() if v}
 
-    total = 0.0
-    for key, path in files.items():
-        subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
-                        '-of', 'default=nw=1:nk=1', path], capture_output=True)  # warm
     report = {'engine': args.engine, 'build_seconds': round(time.time() - t0, 1), 'files': files}
     json.dump(report, open(os.path.join(args.out, 'report.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
