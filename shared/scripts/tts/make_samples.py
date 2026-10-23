@@ -62,7 +62,7 @@ def synth_edge(voice, out_dir):
     results = {}
     for key, text in LINES.items():
         mp3 = os.path.join(out_dir, f'edge-{voice.split("-")[-1]}-{key}.mp3')
-        p = run(['edge-tts', '--voice', voice, '--rate', '-4%', '--text', text,
+        p = run(['edge-tts', '--voice', voice, '--rate=-4%', '--text', text,
                  '--write-media', mp3])
         results[key] = mp3 if os.path.exists(mp3) else None
         if results[key] is None:
