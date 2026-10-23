@@ -64,6 +64,7 @@ jobs:
 
       - name: روایت با Gemini
         env:
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_TTS_VOICE: ${{ inputs.voice }}
           GEMINI_TTS_MODEL: ${{ inputs.model }}
