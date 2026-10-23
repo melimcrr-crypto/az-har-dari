@@ -273,7 +273,8 @@ def main():
                 wsdur = round(_f.getnframes() / _f.getframerate(), 3)
         except Exception:                                  # noqa: BLE001
             pass
-        durations[sid] = wsdur if wsdur else d
+        # مدت باید از خودِ mp3 خوانده شود (بعد از tempo و مسترینگ)، نه از wav قبل از tempo
+        durations[sid] = d if d else (round(wsdur / max(args.tempo, 0.01), 3) if wsdur else None)
         report['segments'].append({'id': sid, 'chars': len(text), 'chunks': len(parts),
                                    'seconds': d, 'build_seconds': round(time.time() - t0, 1)})
         print(f"{sid}  {d:>7}s  ({len(parts)} قطعه، {time.time() - t0:.1f}s)", flush=True)
