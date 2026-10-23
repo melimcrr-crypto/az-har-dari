@@ -1,0 +1,66 @@
+name: TTS clone
+
+on:
+  workflow_dispatch:
+    inputs:
+      voice:
+        description: 'مسیر فایل صدای مرجع در ریپو'
+        required: true
+        default: 'shared/voices/user-voice.wav'
+      temps:
+        description: 'دماها با کاما (کمتر = پایدارتر، بیشتر = پراحساس‌تر)'
+        required: true
+        default: '0.3,0.5'
+
+permissions:
+  contents: read
+
+jobs:
+  clone:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      HF_HOME: /home/runner/hf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install imageio-ffmpeg soundfile
+          mkdir -p /home/runner/bin
+          ln -sf "$(python -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /home/runner/bin/ffmpeg
+          echo "/home/runner/bin" >> "$GITHUB_PATH"
+          python -m pip install "pocket-tts @ git+https://github.com/mallahyari/pocket-tts@main"
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers
+
+      - name: منابع مدل
+        run: |
+          mkdir -p /tmp/p2 && cd /tmp/p2
+          for f in normalize_fa.py model.yaml; do
+            curl -sL -O "https://huggingface.co/mehdi-hf/pocket-tts-farsi-v2/resolve/main/$f"
+          done
+
+      - name: کلون + یک دقیقه محاوره‌ای
+        run: |
+          IFS=',' read -ra T <<< "${{ inputs.temps }}"
+          for t in "${T[@]}"; do
+            tag="clone-temp${t//./}"
+            PYTHONPATH=/tmp/p2 python shared/scripts/tts/pocket_v2_long.py out/$tag \
+              --voice "$GITHUB_WORKSPACE/${{ inputs.voice }}" --tag "$tag" --temp "$t" || echo "FAILED $t"
+          done
+          ls -R out || true
+
+      - name: گزارش
+        run: python shared/scripts/tts/summary_1min.py >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clone
+          path: out
+          retention-days: 14
