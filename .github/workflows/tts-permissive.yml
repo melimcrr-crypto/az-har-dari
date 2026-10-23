@@ -1,0 +1,63 @@
+name: TTS permissive
+
+on:
+  workflow_dispatch:
+    inputs:
+      engines:
+        description: 'mossnano-persian, aava'
+        required: true
+        default: 'mossnano-persian'
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: پایه
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install imageio-ffmpeg soundfile
+          mkdir -p /home/runner/bin
+          ln -sf "$(python -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /home/runner/bin/ffmpeg
+          echo "/home/runner/bin" >> "$GITHUB_PATH"
+
+      - name: MOSS-TTS-Nano فارسی (Apache-2.0)
+        if: contains(inputs.engines, 'mossnano-persian')
+        continue-on-error: true
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          git clone --depth 1 https://huggingface.co/nimaaaAI/MOSS-TTS-Nano-Persian /tmp/mossfa
+          git clone --depth 1 https://github.com/OpenMOSS/MOSS-TTS-Nano.git /tmp/moss
+          cd /tmp/moss
+          python -m pip install -r requirements.txt || true
+          python -m pip install -e . || true
+          mkdir -p "$GITHUB_WORKSPACE/out/mossfarsi"
+          python infer.py --model "$GITHUB_WORKSPACE/../mossfa" \
+            --prompt-audio-path /tmp/mossfa/*.wav \
+            --text "اینستاگرام از تو پول نمی‌گیره، ولی از هر ثانیه‌ای که توی فیدت می‌گذرونی پول درمی‌آره." || true
+          cp generated_audio/*.wav "$GITHUB_WORKSPACE/out/mossfarsi/" 2>/dev/null || true
+          ls -la "$GITHUB_WORKSPACE/out/mossfarsi" || true
+
+      - name: بسته‌بندی
+        run: |
+          mkdir -p small
+          find out -type f \( -name "*.wav" -o -name "*.mp3" \) 2>/dev/null | while read f; do
+            d=$(basename "$(dirname "$f")"); b=$(basename "$f")
+            python -c "import sys,subprocess,imageio_ffmpeg as m; subprocess.run([m.get_ffmpeg_exe(),'-y','-loglevel','error','-i',sys.argv[1],'-ac','1','-c:a','libmp3lame','-b:a','128k',sys.argv[2]],check=True)" "$f" "small/$d-$b.mp3" || true
+          done
+          ls -la small
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tts-permissive
+          path: small
+          retention-days: 14
