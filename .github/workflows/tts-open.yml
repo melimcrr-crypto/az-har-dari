@@ -1,0 +1,81 @@
+name: TTS open models
+
+on:
+  workflow_dispatch:
+    inputs:
+      engines:
+        description: 'pocketv1, mossnano, audio8'
+        required: true
+        default: 'pocketv1'
+
+permissions:
+  contents: read
+
+jobs:
+  open:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: ابزار پایه
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install imageio-ffmpeg
+
+      - name: Pocket-TTS-Farsi v1 (MIT، فارسی، CPU)
+        if: contains(inputs.engines, 'pocketv1')
+        continue-on-error: true
+        env:
+          HF_HUB_ENABLE_HF_TRANSFER: '0'
+        run: |
+          python -m pip install uv
+          mkdir -p open/pocketv1 && cd open/pocketv1
+          curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/farsi_tts.py
+          curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/example_voice.wav
+          uv run farsi_tts.py --text "اینستاگرام از تو پول نمی‌گیره، ولی از هر ثانیه‌ای که توی فیدت می‌گذرونی پول درمی‌آره." --voice example_voice.wav --out s1.wav
+          uv run farsi_tts.py --text "سال گذشته این شرکت نزدیک به دو میلیارد دلار از تبلیغات درآمد داشت؛ یعنی نود و هشت درصد کل درآمدش." --voice example_voice.wav --out s2.wav
+          uv run farsi_tts.py --text "پس چرا وقتی یوتیوب میلیون‌ها بازدید رو مستقیم پول می‌ده، اینستاگرام فقط لایک می‌ده؟" --voice example_voice.wav --out s3.wav
+          ls -la
+
+      - name: MOSS-TTS-Nano (Apache-2.0، فارسی)
+        if: contains(inputs.engines, 'mossnano')
+        continue-on-error: true
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          git clone --depth 1 https://github.com/OpenMOSS/MOSS-TTS-Nano.git
+          cd MOSS-TTS-Nano
+          python -m pip install -r requirements.txt || true
+          python -m pip install -e . || true
+          mkdir -p ../open/mossnano
+          python infer.py --prompt-audio-path assets/audio/zh_1.wav \
+            --text "اینستاگرام از تو پول نمی‌گیره، ولی از هر ثانیه‌ای که توی فیدت می‌گذرونی پول درمی‌آره." || true
+          cp generated_audio/*.wav ../open/mossnano/ 2>/dev/null || true
+          ls -la ../open/mossnano
+
+      - name: Audio8 فارسی (Apache-2.0)
+        if: contains(inputs.engines, 'audio8')
+        continue-on-error: true
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers>=4.57,<5" soundfile num2fawords
+          git clone --depth 1 https://github.com/ard9/Audio8-Persian-TTS.git
+          python shared/scripts/tts/strong.py --engine audio8 --out out/audio8
+
+      - name: بستهٔ خروجی
+        run: |
+          mkdir -p small
+          find out open -type f \( -name "*.wav" -o -name "*.mp3" \) 2>/dev/null | while read f; do
+            d=$(basename "$(dirname "$f")"); b=$(basename "$f")
+            python -c "import sys,subprocess,imageio_ffmpeg as m; subprocess.run([m.get_ffmpeg_exe(),'-y','-loglevel','error','-i',sys.argv[1],'-ac','1','-c:a','libmp3lame','-b:a','128k',sys.argv[2]],check=True)" "$f" "small/$d-$b.mp3" || true
+          done
+          ls -la small
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tts-open
+          path: small
+          retention-days: 14
