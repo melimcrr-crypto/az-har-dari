@@ -1,0 +1,529 @@
+{
+ "slug": "ep02-crane-operator",
+ "number": 2,
+ "title": "رانندهٔ جرثقیل — پنج سطح تا بالای برج",
+ "short_title": "رانندهٔ جرثقیل چطور کار می‌کند؟",
+ "channel": "از هر دری",
+ "handle": "@AzHarDari",
+ "outro_line": "قسمت بعد: سه ماه زیر آب — شغل غواص صنعتی",
+ "audio": {
+  "narration": "audio/narration.mp3",
+  "music": "../../shared/music/curiosity.mp3",
+  "bed": "audio/bed.mp3",
+  "mix": "audio/mix.mp3"
+ },
+ "shots": [
+  {
+   "index": 1,
+   "id": "01-crane-at-dawn",
+   "seconds": 12,
+   "character": true,
+   "note": "هوک: جرثقیل برجی در سپیده‌دم",
+   "image_path": "shots/01-crane-at-dawn/image/01-crane-at-dawn.jpg"
+  },
+  {
+   "index": 2,
+   "id": "02-climbing-the-mast",
+   "seconds": 11,
+   "character": true,
+   "note": "بالا رفتن از نردبان برج",
+   "image_path": "shots/02-climbing-the-mast/image/02-climbing-the-mast.jpg"
+  },
+  {
+   "index": 3,
+   "id": "03-cabin-first-look",
+   "seconds": 12,
+   "character": true,
+   "note": "اولین نشستن در کابین",
+   "image_path": "shots/03-cabin-first-look/image/03-cabin-first-look.jpg"
+  },
+  {
+   "index": 4,
+   "id": "04-city-under-his-feet",
+   "seconds": 12,
+   "character": true,
+   "note": "شهر زیر پا",
+   "image_path": "shots/04-city-under-his-feet/image/04-city-under-his-feet.jpg"
+  },
+  {
+   "index": 5,
+   "id": "05-license-card",
+   "seconds": 11,
+   "character": true,
+   "note": "گواهینامهٔ اپراتوری",
+   "image_path": "shots/05-license-card/image/05-license-card.jpg"
+  },
+  {
+   "index": 6,
+   "id": "06-practical-exam",
+   "seconds": 11,
+   "character": true,
+   "note": "آزمون عملی در محوطه",
+   "image_path": "shots/06-practical-exam/image/06-practical-exam.jpg"
+  },
+  {
+   "index": 7,
+   "id": "07-three-safety-rules",
+   "seconds": 12,
+   "character": true,
+   "note": "سه قانون ایمنی روی تخته",
+   "image_path": "shots/07-three-safety-rules/image/07-three-safety-rules.jpg"
+  },
+  {
+   "index": 8,
+   "id": "08-swinging-hook",
+   "seconds": 12,
+   "character": true,
+   "note": "قلاب تاب می‌خورد",
+   "image_path": "shots/08-swinging-hook/image/08-swinging-hook.jpg"
+  },
+  {
+   "index": 9,
+   "id": "09-hand-signals",
+   "seconds": 12,
+   "character": true,
+   "note": "علائم دستی با ریگر",
+   "image_path": "shots/09-hand-signals/image/09-hand-signals.jpg"
+  },
+  {
+   "index": 10,
+   "id": "10-the-slow-lift",
+   "seconds": 13,
+   "character": true,
+   "note": "بلند کردن آرام",
+   "image_path": "shots/10-the-slow-lift/image/10-the-slow-lift.jpg"
+  },
+  {
+   "index": 11,
+   "id": "11-the-swing",
+   "seconds": 12,
+   "character": true,
+   "note": "چرخش ۱۸۰ درجه",
+   "image_path": "shots/11-the-swing/image/11-the-swing.jpg"
+  },
+  {
+   "index": 12,
+   "id": "12-precision-landing",
+   "seconds": 13,
+   "character": true,
+   "note": "نشستن دقیق بار",
+   "image_path": "shots/12-precision-landing/image/12-precision-landing.jpg"
+  },
+  {
+   "index": 13,
+   "id": "13-first-solo-lift",
+   "seconds": 12,
+   "character": true,
+   "note": "اولین بلندِ تنهایی",
+   "image_path": "shots/13-first-solo-lift/image/13-first-solo-lift.jpg"
+  },
+  {
+   "index": 14,
+   "id": "14-radio-praise",
+   "seconds": 11,
+   "character": true,
+   "note": "تشویق روی بی‌سیم",
+   "image_path": "shots/14-radio-praise/image/14-radio-praise.jpg"
+  },
+  {
+   "index": 15,
+   "id": "15-payslip",
+   "seconds": 13,
+   "character": true,
+   "note": "فیش حقوقی",
+   "image_path": "shots/15-payslip/image/15-payslip.jpg"
+  },
+  {
+   "index": 16,
+   "id": "16-the-market",
+   "seconds": 12,
+   "character": true,
+   "note": "بازار کار و رقابت",
+   "image_path": "shots/16-the-market/image/16-the-market.jpg"
+  },
+  {
+   "index": 17,
+   "id": "17-extra-shift",
+   "seconds": 12,
+   "character": true,
+   "note": "شیفت اضافه شبانه",
+   "image_path": "shots/17-extra-shift/image/17-extra-shift.jpg"
+  },
+  {
+   "index": 18,
+   "id": "18-the-hidden-costs",
+   "seconds": 12,
+   "character": true,
+   "note": "هزینه‌های پنهان شغل",
+   "image_path": "shots/18-the-hidden-costs/image/18-the-hidden-costs.jpg"
+  },
+  {
+   "index": 19,
+   "id": "19-two-years-later",
+   "seconds": 12,
+   "character": true,
+   "note": "دو سال بعد، همان سایت",
+   "image_path": "shots/19-two-years-later/image/19-two-years-later.jpg"
+  },
+  {
+   "index": 20,
+   "id": "20-load-chart",
+   "seconds": 12,
+   "character": true,
+   "note": "خواندن نمودار بار",
+   "image_path": "shots/20-load-chart/image/20-load-chart.jpg"
+  },
+  {
+   "index": 21,
+   "id": "21-wind-sock",
+   "seconds": 12,
+   "character": true,
+   "note": "باد و بادگیر",
+   "image_path": "shots/21-wind-sock/image/21-wind-sock.jpg"
+  },
+  {
+   "index": 22,
+   "id": "22-center-of-gravity",
+   "seconds": 12,
+   "character": true,
+   "note": "مرکز ثقل بار",
+   "image_path": "shots/22-center-of-gravity/image/22-center-of-gravity.jpg"
+  },
+  {
+   "index": 23,
+   "id": "23-the-forbidden-zone",
+   "seconds": 12,
+   "character": false,
+   "note": "اینفوگرافیک منطقهٔ ممنوعه",
+   "image_path": "shots/23-the-forbidden-zone/image/23-the-forbidden-zone.jpg"
+  },
+  {
+   "index": 24,
+   "id": "24-night-shift",
+   "seconds": 12,
+   "character": true,
+   "note": "سطح ۳: شیفت شب",
+   "image_path": "shots/24-night-shift/image/24-night-shift.jpg"
+  },
+  {
+   "index": 25,
+   "id": "25-the-storm",
+   "seconds": 13,
+   "character": true,
+   "note": "طوفان و لرزش برج",
+   "image_path": "shots/25-the-storm/image/25-the-storm.jpg"
+  },
+  {
+   "index": 26,
+   "id": "26-the-decision-to-stop",
+   "seconds": 12,
+   "character": true,
+   "note": "تصمیم به توقف",
+   "image_path": "shots/26-the-decision-to-stop/image/26-the-decision-to-stop.jpg"
+  },
+  {
+   "index": 27,
+   "id": "27-that-was-close",
+   "seconds": 13,
+   "character": true,
+   "note": "نزدیک بود",
+   "image_path": "shots/27-that-was-close/image/27-that-was-close.jpg"
+  },
+  {
+   "index": 28,
+   "id": "28-shaking-hands",
+   "seconds": 13,
+   "character": true,
+   "note": "دست‌های لرزان",
+   "image_path": "shots/28-shaking-hands/image/28-shaking-hands.jpg"
+  },
+  {
+   "index": 29,
+   "id": "29-three-mistakes",
+   "seconds": 12,
+   "character": false,
+   "note": "اینفوگرافیک سه اشتباه",
+   "image_path": "shots/29-three-mistakes/image/29-three-mistakes.jpg"
+  },
+  {
+   "index": 30,
+   "id": "30-the-report",
+   "seconds": 12,
+   "character": true,
+   "note": "گزارش حادثه",
+   "image_path": "shots/30-the-report/image/30-the-report.jpg"
+  },
+  {
+   "index": 31,
+   "id": "31-the-impossible-load",
+   "seconds": 13,
+   "character": true,
+   "note": "سطح ۴: بار غیرممکن",
+   "image_path": "shots/31-the-impossible-load/image/31-the-impossible-load.jpg"
+  },
+  {
+   "index": 32,
+   "id": "32-two-cranes",
+   "seconds": 13,
+   "character": true,
+   "note": "هماهنگی دو جرثقیل",
+   "image_path": "shots/32-two-cranes/image/32-two-cranes.jpg"
+  },
+  {
+   "index": 33,
+   "id": "33-the-calculations",
+   "seconds": 12,
+   "character": true,
+   "note": "محاسبهٔ روی کاغذ",
+   "image_path": "shots/33-the-calculations/image/33-the-calculations.jpg"
+  },
+  {
+   "index": 34,
+   "id": "34-everyone-is-watching",
+   "seconds": 12,
+   "character": true,
+   "note": "همه نگاه می‌کنند",
+   "image_path": "shots/34-everyone-is-watching/image/34-everyone-is-watching.jpg"
+  },
+  {
+   "index": 35,
+   "id": "35-the-lift-begins",
+   "seconds": 13,
+   "character": true,
+   "note": "شروع بلند کردن",
+   "image_path": "shots/35-the-lift-begins/image/35-the-lift-begins.jpg"
+  },
+  {
+   "index": 36,
+   "id": "36-eight-hours",
+   "seconds": 12,
+   "character": true,
+   "note": "هشت ساعت بعد",
+   "image_path": "shots/36-eight-hours/image/36-eight-hours.jpg"
+  },
+  {
+   "index": 37,
+   "id": "37-landed",
+   "seconds": 13,
+   "character": true,
+   "note": "بار نشست",
+   "image_path": "shots/37-landed/image/37-landed.jpg"
+  },
+  {
+   "index": 38,
+   "id": "38-the-neck",
+   "seconds": 12,
+   "character": true,
+   "note": "هزینهٔ بدن: گردن",
+   "image_path": "shots/38-the-neck/image/38-the-neck.jpg"
+  },
+  {
+   "index": 39,
+   "id": "39-almost-no-water",
+   "seconds": 12,
+   "character": true,
+   "note": "یک لیتر آب در هشت ساعت",
+   "image_path": "shots/39-almost-no-water/image/39-almost-no-water.jpg"
+  },
+  {
+   "index": 40,
+   "id": "40-alone-up-there",
+   "seconds": 13,
+   "character": true,
+   "note": "تنهایی بالا",
+   "image_path": "shots/40-alone-up-there/image/40-alone-up-there.jpg"
+  },
+  {
+   "index": 41,
+   "id": "41-call-home",
+   "seconds": 12,
+   "character": true,
+   "note": "تماس با خانه",
+   "image_path": "shots/41-call-home/image/41-call-home.jpg"
+  },
+  {
+   "index": 42,
+   "id": "42-four-hours-of-sleep",
+   "seconds": 12,
+   "character": true,
+   "note": "چهار ساعت خواب",
+   "image_path": "shots/42-four-hours-of-sleep/image/42-four-hours-of-sleep.jpg"
+  },
+  {
+   "index": 43,
+   "id": "43-the-new-kid",
+   "seconds": 12,
+   "character": true,
+   "note": "سطح ۵: تازه‌کار",
+   "image_path": "shots/43-the-new-kid/image/43-the-new-kid.jpg"
+  },
+  {
+   "index": 44,
+   "id": "44-teach-the-rules",
+   "seconds": 12,
+   "character": true,
+   "note": "یاد دادن سه قانون",
+   "image_path": "shots/44-teach-the-rules/image/44-teach-the-rules.jpg"
+  },
+  {
+   "index": 45,
+   "id": "45-hands-on-the-lever",
+   "seconds": 12,
+   "character": true,
+   "note": "دست روی دست",
+   "image_path": "shots/45-hands-on-the-lever/image/45-hands-on-the-lever.jpg"
+  },
+  {
+   "index": 46,
+   "id": "46-your-first-lift",
+   "seconds": 12,
+   "character": true,
+   "note": "اولین بلندِ تازه‌کار",
+   "image_path": "shots/46-your-first-lift/image/46-your-first-lift.jpg"
+  },
+  {
+   "index": 47,
+   "id": "47-sunset-and-the-crane",
+   "seconds": 13,
+   "character": true,
+   "note": "غروب و جرثقیل",
+   "image_path": "shots/47-sunset-and-the-crane/image/47-sunset-and-the-crane.jpg"
+  },
+  {
+   "index": 48,
+   "id": "48-next-episode",
+   "seconds": 13,
+   "character": true,
+   "note": "قسمت بعد",
+   "image_path": "shots/48-next-episode/image/48-next-episode.jpg"
+  }
+ ],
+ "total_seconds": 585,
+ "segments": [
+  {
+   "id": "s01",
+   "title": "هوک — سطح ۱: روز اول",
+   "shots": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "dur": 36.0
+  },
+  {
+   "id": "s02",
+   "title": "مجوز و آزمون",
+   "shots": [
+    5,
+    6,
+    7
+   ],
+   "dur": 33.0
+  },
+  {
+   "id": "s03",
+   "title": "سطح ۲: اولین بلند",
+   "shots": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+   ],
+   "dur": 78.0
+  },
+  {
+   "id": "s04",
+   "title": "پول و واقعیت بازار",
+   "shots": [
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "dur": 55.0
+  },
+  {
+   "id": "s05",
+   "title": "فیزیک و خطر",
+   "shots": [
+    20,
+    21,
+    22,
+    23
+   ],
+   "dur": 44.0
+  },
+  {
+   "id": "s06",
+   "title": "سطح ۳: شب و طوفان",
+   "shots": [
+    24,
+    25,
+    26
+   ],
+   "dur": 37.0
+  },
+  {
+   "id": "s07",
+   "title": "خطا",
+   "shots": [
+    27,
+    28,
+    29,
+    30
+   ],
+   "dur": 47.0
+  },
+  {
+   "id": "s08",
+   "title": "سطح ۴: بلندِ غیرممکن",
+   "shots": [
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37
+   ],
+   "dur": 82.0
+  },
+  {
+   "id": "s09",
+   "title": "هزینهٔ بدن",
+   "shots": [
+    38,
+    39,
+    40,
+    41,
+    42
+   ],
+   "dur": 54.0
+  },
+  {
+   "id": "s10",
+   "title": "سطح ۵: آموزش تازه‌کار",
+   "shots": [
+    43,
+    44,
+    45,
+    46
+   ],
+   "dur": 46.0
+  },
+  {
+   "id": "s11",
+   "title": "پایان و قسمت بعد",
+   "shots": [
+    47,
+    48
+   ],
+   "dur": 26.0
+  }
+ ]
+}

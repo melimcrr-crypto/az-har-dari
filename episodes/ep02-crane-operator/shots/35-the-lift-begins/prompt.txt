@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet_crane.jpg: Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, cream t-shirt under an open dark-teal work shirt, thin silver chain, wristwatch, orange high-visibility vest and a white hard hat (on his head when on site, in his hand indoors). Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: both hands on the joysticks, elbows locked, one centimetre at a time, sweat at his hairline
+
+The generator lifting clear of the trailer, slings taut, the trailer suspension relaxing, dust rising from the wheels, a rigger with a guide rope, everything in sharp focus
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: بلند  |  BIG NUMBER — Persian digits only, one giant number with no word attached to it, no unit, digits in left-to-right order exactly as written here, coral fill with a teal outline: ۱
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC sky and paper, deep teal #12545A machinery, industrial coral #E9705B safety accents, charcoal #2B2F33 linework, dusty amber sunlight. Cinematic 16:9, one idea per frame, strong focal point, no empty areas. No watermark, no logo, no English words, no gibberish letters.

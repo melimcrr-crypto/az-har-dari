@@ -14,7 +14,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TARGET = os.path.join(ROOT, 'shared', 'scripts', 'check_missing.py')
-DEFAULT_EP = 'episodes/ep01-instagram-money'
+DEFAULT_EP = "episodes/ep02-crane-operator"
 
 args = sys.argv[1:]
 if not args or args[0].startswith('-'):
