@@ -1,42 +1,42 @@
-# قسمت ۲ — رانندهٔ جرثقیل: پنج سطح تا بالای برج
+# قسمت ۲ — رانندهٔ جرثقیل برجی: پنج سطح تا بالای برج
 
-| مورد | مقدار |
+۴۸ نما · ۱۱ بخش روایی · هدف: ۸ دقیقه · بدون موزیک، بدون متن روی تصویر
+
+## فایل‌ها
+| فایل | چیست |
 |---|---|
-| مدت | ۹ دقیقه و ۴۵ ثانیه (۵۸۵ ثانیه) |
-| نما | ۴۸ (کاراکتر در ۴۶ نما؛ ۲۳ و ۲۹ اینفوگرافیک خالی) |
-| بخش صوتی | ۱۱ بخش (`audio/script.json` نوشته شده، صدا هنوز ساخته نشده) |
-| شیت کاراکتر | `characters/character_sheet_crane.jpg` + توضیح در `characters/character-sheet-crane.md` |
+| `episode.json` | مشخصات قسمت، فهرست ۴۸ نما، وزن زمانی هر نما، نگاشت بخش‌های صوتی به نماها |
+| `shots/<id>/prompt.txt` | پرامپت تصویر هر نما |
+| `shots/<id>/image/<id>.jpg` | تصویر نهایی هر نما (۴۸/۴۸) |
+| `audio/script.json` | متن روایت، ۱۱ بخش، لحن محاوره‌ای |
+| `audio/pron.json` | واژه‌نامهٔ تلفظ برای TTS |
+| `audio/durations.json` | مدت دقیق هر بخش؛ خودکار توسط TTS نوشته می‌شود |
+| `timings.json` | شروع و مدت هر نما؛ خودکار ساخته می‌شود |
+| `output/ep02-crane-operator.mp4` | خروجی نهایی |
 
-## ساختار پنج سطحی
+## ساخت (GitHub Actions)
+`Actions → Render final → Run workflow`
 
-| سطح | بخش | نماها |
-|---|---|---|
-| ۱ — روز اول | هوک، بالا رفتن از برج، اولین نشستن در کابین | ۱–۴ |
-| — مجوز | گواهینامه، آزمون عملی، سه قانون ایمنی | ۵–۷ |
-| ۲ — اولین بلند | تاب قلاب، علائم دستی، نشستن دقیق بار | ۸–۱۴ |
-| — پول | فیش حقوق، بازار کار، شیفت اضافه، هزینهٔ پنهان | ۱۵–۱۹ |
-| — فیزیک | نمودار بار، باد، مرکز ثقل، منطقهٔ ممنوعه | ۲۰–۲۳ |
-| ۳ — شب و طوفان | شیفت شب، طوفان، تصمیم به توقف | ۲۴–۲۶ |
-| — خطا | نزدیک بود، دست لرزان، سه اشتباه، گزارش حادثه | ۲۷–۳۰ |
-| ۴ — بلندِ غیرممکن | ۶۸ تن، دو جرثقیل، هشت ساعت | ۳۱–۳۷ |
-| — هزینهٔ بدن | گردن، آب، تنهایی، تماس با خانه، چهار ساعت خواب | ۳۸–۴۲ |
-| ۵ — تازه‌کار | آموزش، دست روی دست، اولین بلندِ او | ۴۳–۴۶ |
-| پایان | غروب و جرثقیل، تیزر قسمت بعد | ۴۷–۴۸ |
+* پوشه: `episodes/ep02-crane-operator`
+* صدا: `Charon` (جایگزین‌ها: Puck، Kore، Fenrir، Aoede)
+* مدل: `gemini-2.5-pro-preview-tts`
+* کیفیت: `21`
 
-## تولید عکس
+مراحل: بررسی تصاویر → روایت Gemini → بررسی تلفظ با Whisper → زمان‌بندی از صدای واقعی → افکت صدا و میکس → رندر تمیز → انتشار در Releases.
 
+## ساخت (محلی)
 ```bash
-python3 check_missing.py episodes/ep02-crane-operator            # وضعیت
-python3 check_missing.py episodes/ep02-crane-operator --next     # دستهٔ ۱۰ تایی → work-batch.md
+export GEMINI_API_KEY=...
+python3 shared/scripts/tts/gemini_ep.py episodes/ep02-crane-operator --voice Charon
+python3 shared/scripts/build_timings.py episodes/ep02-crane-operator --target 480
+python3 shared/scripts/merge_audio.py episodes/ep02-crane-operator
+python3 shared/scripts/prepare_audio_sfx.py episodes/ep02-crane-operator
+python3 shared/scripts/render_clean.py episodes/ep02-crane-operator --fps 24
 ```
 
-هر نما: `shots/<id>/prompt.txt` را بردار، شیت کاراکتر را ضمیمه کن، عکس را در
-`shots/<id>/image/<id>.jpg` بگذار.
-
-## تولید صدا
-
-`audio/script.json` آماده است (۱۱ بخش). با Pocket v2:
-```
-Actions → TTS clone → voice: shared/voices/user-voice.wav
-```
-(یا اسکریپت `shared/scripts/tts/synth_episode.py` برای موتورهای دیگر)
+## قواعد ثابت این قسمت
+* هیچ متنی روی تصویر سوزانده نمی‌شود؛ تیتر، چیپ و کارت پایانی حذف شده‌اند.
+* هیچ موزیکی زیر روایت نیست؛ فقط ووش برش نما، کلیک شروع بخش، و ایمپکت ابتدا/انتها.
+* زوم آرام متناوب (۱٫۰۴۵) و کراس‌فید ۰٫۴۵ ثانیه؛ هر نما به اندازهٔ جمله‌اش می‌ماند.
+* سکوت lead/gap/tail در `timings.json` ذخیره می‌شود و `merge_audio.py` همان را می‌خواند،
+  تا صدا و تصویر مو‌به‌مو یکی باشند.

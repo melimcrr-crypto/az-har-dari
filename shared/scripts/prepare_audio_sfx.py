@@ -112,9 +112,9 @@ def main():
     graph = ('[0:a]aresample=48000,aformat=channel_layouts=stereo[v];'
              '[1:a]aresample=48000,volume=0.85[s];'
              '[v][s]amix=inputs=2:duration=first:dropout_transition=0:normalize=0,'
-             'loudnorm=I=-16:TP=-1.5:LRA=11[out]')
+             'loudnorm=I=-16:TP=-1.5:LRA=11,apad[out]')
     subprocess.run([FF, '-y', '-loglevel', 'error', '-i', narration, '-i', out_sfx,
-                    '-filter_complex', graph, '-map', '[out]',
+                    '-filter_complex', graph, '-map', '[out]', '-t', f'{total:.3f}',
                     '-codec:a', 'libmp3lame', '-b:a', '192k', out_mix], check=True)
     print(f'✅ mix.mp3  ({dur(out_mix):.1f}s · روایت + افکت، بدون موزیک، −۱۶ LUFS)')
 

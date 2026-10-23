@@ -177,6 +177,7 @@ def main():
     os.makedirs(tmp_dir, exist_ok=True)
 
     report = {'voice': args.voice, 'model': args.model, 'segments': []}
+    durations = {}
     t_all = time.time()
     total_chars = 0
 
@@ -218,6 +219,14 @@ def main():
             if 'Duration' in line:
                 h, m, s = line.split('Duration:')[1].split(',')[0].strip().split(':')
                 d = round(int(h) * 3600 + int(m) * 60 + float(s), 2)
+        wsdur = None
+        try:
+            import wave as _w
+            with _w.open(joined) as _f:
+                wsdur = round(_f.getnframes() / _f.getframerate(), 3)
+        except Exception:                                  # noqa: BLE001
+            pass
+        durations[sid] = wsdur if wsdur else d
         report['segments'].append({'id': sid, 'chars': len(text), 'chunks': len(parts),
                                    'seconds': d, 'build_seconds': round(time.time() - t0, 1)})
         print(f"{sid}  {d:>7}s  ({len(parts)} قطعه، {time.time() - t0:.1f}s)", flush=True)
@@ -225,6 +234,8 @@ def main():
     report['total_seconds'] = round(sum(s['seconds'] or 0 for s in report['segments']), 2)
     report['total_build_seconds'] = round(time.time() - t_all, 1)
     report['chars'] = total_chars
+    json.dump(durations, open(os.path.join(ep_dir, 'audio', 'durations.json'), 'w',
+                              encoding='utf-8'), ensure_ascii=False, indent=1)
     json.dump(report, open(os.path.join(ep_dir, 'audio', 'gemini-report.json'), 'w',
                            encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f"\nجمع: {report['total_seconds']}s ({report['total_seconds'] / 60:.2f} دقیقه) "

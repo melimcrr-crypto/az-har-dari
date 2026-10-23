@@ -22,6 +22,11 @@ def wav_durations(ep_dir, segments):
     """
     out = {}
     adir = os.path.join(ep_dir, 'audio')
+    exact = os.path.join(adir, 'durations.json')
+    if os.path.exists(exact):
+        data = json.load(open(exact, encoding='utf-8'))
+        if all(s['id'] in data for s in segments):
+            return {s['id']: float(data[s['id']]) for s in segments}
     for s in segments:
         if s.get('dur'):
             out[s['id']] = float(s['dur'])
@@ -40,14 +45,24 @@ def wav_durations(ep_dir, segments):
 
 
 def probe_duration(path):
-    """مدت با ffprobe؛ اگر نبود، پیمایش هدر mp3."""
+    """مدت با ffprobe، بعد ffmpeg، و در آخر پیمایش هدر mp3."""
     try:
         r = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration',
-                            '-of', 'default=nw=1:nk=1', path],
-                           capture_output=True, text=True, check=True)
-        return float(r.stdout.strip())
-    except Exception:
-        return mp3_duration(path)
+                            '-of', 'default=nw=1:nk=1', path], capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return float(r.stdout.strip())
+    except Exception:                                      # noqa: BLE001
+        pass
+    try:
+        r = subprocess.run([os.environ.get('FFMPEG', 'ffmpeg'), '-hide_banner', '-i', path],
+                           capture_output=True, text=True)
+        for line in r.stderr.splitlines():
+            if 'Duration' in line:
+                h, m, sec = line.split('Duration:')[1].split(',')[0].strip().split(':')
+                return int(h) * 3600 + int(m) * 60 + float(sec)
+    except Exception:                                      # noqa: BLE001
+        pass
+    return mp3_duration(path)
 
 
 def mp3_duration(path):
@@ -93,14 +108,36 @@ def mp3_duration(path):
 
 
 def main():
-    ep_dir = sys.argv[1] if len(sys.argv) > 1 else 'episodes/ep01-instagram-money'
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument('episode')
+    ap.add_argument('--lead', type=float, default=0.35, help='سکوت اول، ثانیه')
+    ap.add_argument('--gap', type=float, default=0.30, help='سکوت بین بخش‌ها، ثانیه')
+    ap.add_argument('--tail', type=float, default=0.80, help='سکوت آخر، ثانیه')
+    ap.add_argument('--target', type=float, default=0.0,
+                    help='طول هدف ویدیو (ثانیه)؛ فقط اگر صدا کوتاه‌تر بود، با مکث پر می‌شود')
+    ap.add_argument('--gap-max', type=float, default=2.2, help='بیشترین مکث بین بخش‌ها')
+    args = ap.parse_args()
+
+    ep_dir = args.episode
     ep = json.load(open(os.path.join(ep_dir, 'episode.json'), encoding='utf-8'))
     segs = ep['segments']
     shots = ep['shots']
     durs = wav_durations(ep_dir, segs)
 
+    lead, gap, tail = args.lead, args.gap, args.tail
+    raw = lead + tail + sum(durs.values()) + gap * max(0, len(segs) - 1)
+    if args.target and raw < args.target and len(segs) > 1:
+        need = args.target - raw
+        per = min(args.gap_max - gap, need / (len(segs) - 1))
+        gap += max(0.0, per)
+        raw = lead + tail + sum(durs.values()) + gap * (len(segs) - 1)
+        if raw < args.target:
+            tail += args.target - raw          # باقی‌مانده: نگه‌داشتن نمای آخر
+            raw = lead + tail + sum(durs.values()) + gap * (len(segs) - 1)
+
     timed = {}
-    t = 0.0
+    t = lead
     for s in segs:
         ids = s['shots']
         weights = [shots[i - 1]['seconds'] for i in ids]
@@ -110,12 +147,16 @@ def main():
             timed[i] = {'start': round(t, 2), 'dur': round(d, 2),
                         'seg': s['id'], 'title': s.get('title', '')}
             t += d
+        t += gap
 
-    out = {'episode': ep.get('title', ''), 'segments': {k: round(v, 2) for k, v in durs.items()},
-           'shots': timed, 'total': round(t, 2)}
+    out = {'episode': ep.get('title', ''),
+           'lead': round(lead, 3), 'gap': round(gap, 3), 'tail': round(tail, 3),
+           'segments': {k: round(v, 2) for k, v in durs.items()},
+           'shots': timed, 'total': round(t - gap + tail, 2)}
     path = os.path.join(ep_dir, 'timings.json')
     json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'✅ {path} — {len(timed)} نما · {t/60:.2f} دقیقه')
+    print(f"✅ {path} — {len(timed)} نما · {out['total']:.1f}s ({out['total']/60:.2f} دقیقه) "
+          f"· lead {lead}s · gap {gap:.2f}s · tail {tail:.2f}s")
     return out
 
 
