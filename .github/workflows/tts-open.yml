@@ -36,6 +36,9 @@ jobs:
           mkdir -p open/pocketv1 && cd open/pocketv1
           curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/farsi_tts.py
           curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/example_voice.wav
+          curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/normalize_fa.py
+          curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi/resolve/main/farsi.yaml
+          ls -la
           uv run farsi_tts.py --text "اینستاگرام از تو پول نمی‌گیره، ولی از هر ثانیه‌ای که توی فیدت می‌گذرونی پول درمی‌آره." --voice example_voice.wav --out s1.wav
           uv run farsi_tts.py --text "سال گذشته این شرکت نزدیک به دو میلیارد دلار از تبلیغات درآمد داشت؛ یعنی نود و هشت درصد کل درآمدش." --voice example_voice.wav --out s2.wav
           uv run farsi_tts.py --text "پس چرا وقتی یوتیوب میلیون‌ها بازدید رو مستقیم پول می‌ده، اینستاگرام فقط لایک می‌ده؟" --voice example_voice.wav --out s3.wav
