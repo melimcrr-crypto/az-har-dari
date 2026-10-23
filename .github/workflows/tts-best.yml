@@ -25,6 +25,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install imageio-ffmpeg soundfile
+          mkdir -p /home/runner/bin
+          ln -sf "$(python -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /home/runner/bin/ffmpeg
+          echo "/home/runner/bin" >> "$GITHUB_PATH"
+          ffmpeg -version | head -1
 
       - name: Pocket-TTS-Farsi v2
         if: contains(inputs.engines, 'pocketv2')
@@ -41,7 +45,7 @@ jobs:
           done
           curl -sL -O https://huggingface.co/mehdi-hf/pocket-tts-farsi-v2/resolve/main/samples/prompt_hello.wav
           cd "$GITHUB_WORKSPACE"
-          PYTHONPATH=/tmp/p2 python shared/scripts/tts/pocket_v2.py out/pocketv2
+          VOICE=/tmp/p2/prompt_hello.wav PYTHONPATH=/tmp/p2 python shared/scripts/tts/pocket_v2.py out/pocketv2
           ls -la out/pocketv2 || true
 
       - name: F5-TTS فارسی (Apache-2.0)
