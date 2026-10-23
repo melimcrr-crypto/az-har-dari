@@ -43,9 +43,9 @@ def font(kind, size):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('episode')
-    ap.add_argument('--crf', default='20')
+    ap.add_argument('--crf', default='21')
     ap.add_argument('--fps', type=int, default=25)
-    ap.add_argument('--preset', default='veryfast')
+    ap.add_argument('--preset', default='medium')
     args = ap.parse_args()
 
     ep_dir = args.episode
@@ -134,7 +134,8 @@ def main():
            '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(args.fps), '-i', '-',
            '-i', audio,
            '-c:v', 'libx264', '-preset', args.preset, '-crf', str(args.crf), '-pix_fmt', 'yuv420p',
-           '-profile:v', 'high', '-c:a', 'aac', '-b:a', '192k', '-shortest',
+           '-profile:v', 'high', '-tune', 'stillimage', '-g', '250', '-x264-params', 'ref=3:bframes=3',
+           '-c:a', 'aac', '-b:a', '160k', '-shortest',
            '-movflags', '+faststart', out]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
 

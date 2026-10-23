@@ -10,7 +10,7 @@ on:
       crf:
         description: 'کیفیت (کمتر = بهتر، ۱۸ تا ۲۳)'
         required: true
-        default: '20'
+        default: '21'
       release:
         description: 'بارگذاری خروجی روی Releases؟'
         type: boolean
