@@ -1,0 +1,22 @@
+{
+  "slug": "ep02-slug",
+  "number": 2,
+  "title": "قسمت ۲ — عنوان",
+  "short_title": "عنوان کوتاه برای تیتر",
+  "channel": "از هر دری",
+  "handle": "@AzHarDari",
+  "outro_line": "قلاب قسمت بعد",
+  "audio": {
+    "narration": "audio/narration.mp3",
+    "music": "../../shared/music/curiosity.mp3",
+    "bed": "audio/bed.mp3",
+    "mix": "audio/mix.mp3"
+  },
+  "shots": [
+    { "id": "01-slug", "seconds": 11, "character": true, "note": "توضیح کوتاه" }
+  ],
+  "segments": [
+    { "id": "s01", "title": "هوک", "dur": 36.0, "shots": [1] }
+  ],
+  "total_seconds": 11
+}

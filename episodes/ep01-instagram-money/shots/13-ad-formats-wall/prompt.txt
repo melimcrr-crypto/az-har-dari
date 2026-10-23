@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet.png: handsome Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, dark teal overshirt open over a cream t-shirt, thin silver chain, wristwatch. Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: he stands at the left of the wall, three-quarter view, arm raised pinning a card, looking at the wall rather than the camera
+
+A studio wall covered with pinned ad mockups of different shapes: a tall story frame, a square post, a wide banner, a carousel of three cards. A desk lamp and colour swatches below. He pins one more mockup with a red pushpin.
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: قالب‌های تبلیغ
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC background, deep teal #12545A, coral #E9705B, charcoal #2B2F33, tiny amber accent. Cinematic 16:9, one idea per frame, strong focal point, room for a caption at the bottom. No watermark, no logo, no English words, no gibberish letters.

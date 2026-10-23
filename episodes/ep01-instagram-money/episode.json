@@ -1,0 +1,530 @@
+{
+ "episode": "قسمت ۱ — اینستاگرام چطور پول درمی‌آورد؟",
+ "shots": [
+  {
+   "index": 1,
+   "id": "01-thumb-on-phone",
+   "seconds": 11,
+   "character": true,
+   "note": "هوک: گوشی در تاریکی",
+   "image_path": "shots/shots/01-thumb-on-phone/image/01-thumb-on-phone.jpg"
+  },
+  {
+   "index": 2,
+   "id": "02-free-app-store",
+   "seconds": 11,
+   "character": true,
+   "note": "مجانی است",
+   "image_path": "shots/shots/02-free-app-store/image/02-free-app-store.jpg"
+  },
+  {
+   "index": 3,
+   "id": "03-money-into-jar",
+   "seconds": 10,
+   "character": true,
+   "note": "پول از کجا می‌آید",
+   "image_path": "shots/shots/03-money-into-jar/image/03-money-into-jar.jpg"
+  },
+  {
+   "index": 4,
+   "id": "04-three-doors",
+   "seconds": 10,
+   "character": true,
+   "note": "سه لایه",
+   "image_path": "shots/shots/04-three-doors/image/04-three-doors.jpg"
+  },
+  {
+   "index": 5,
+   "id": "05-three-layer-diagram",
+   "seconds": 12,
+   "character": false,
+   "note": "نقشهٔ سه‌لایه",
+   "image_path": "shots/shots/05-three-layer-diagram/image/05-three-layer-diagram.jpg"
+  },
+  {
+   "index": 6,
+   "id": "06-character-explains-board",
+   "seconds": 11,
+   "character": true,
+   "note": "کاراکتر توضیح می‌دهد",
+   "image_path": "shots/shots/06-character-explains-board/image/06-character-explains-board.jpg"
+  },
+  {
+   "index": 7,
+   "id": "07-market-of-attention",
+   "seconds": 12,
+   "character": true,
+   "note": "بازار توجه",
+   "image_path": "shots/shots/07-market-of-attention/image/07-market-of-attention.jpg"
+  },
+  {
+   "index": 8,
+   "id": "08-feed-with-sponsored",
+   "seconds": 11,
+   "character": true,
+   "note": "تبلیغ در فید",
+   "image_path": "shots/shots/08-feed-with-sponsored/image/08-feed-with-sponsored.jpg"
+  },
+  {
+   "index": 9,
+   "id": "09-shoe-shop-owner",
+   "seconds": 11,
+   "character": true,
+   "note": "مثال فروشگاه کفش",
+   "image_path": "shots/shots/09-shoe-shop-owner/image/09-shoe-shop-owner.jpg"
+  },
+  {
+   "index": 10,
+   "id": "10-auction-of-impressions",
+   "seconds": 10,
+   "character": true,
+   "note": "مزایده",
+   "image_path": "shots/shots/10-auction-of-impressions/image/10-auction-of-impressions.jpg"
+  },
+  {
+   "index": 11,
+   "id": "11-auction-timer",
+   "seconds": 10,
+   "character": true,
+   "note": "چند میلی‌ثانیه",
+   "image_path": "shots/shots/11-auction-timer/image/11-auction-timer.jpg"
+  },
+  {
+   "index": 12,
+   "id": "12-tehran-neighborhood-ad",
+   "seconds": 10,
+   "character": true,
+   "note": "تبلیغ محلی",
+   "image_path": "shots/shots/12-tehran-neighborhood-ad/image/12-tehran-neighborhood-ad.jpg"
+  },
+  {
+   "index": 13,
+   "id": "13-ad-formats-wall",
+   "seconds": 10,
+   "character": true,
+   "note": "قالب‌های تبلیغ",
+   "image_path": "shots/shots/13-ad-formats-wall/image/13-ad-formats-wall.jpg"
+  },
+  {
+   "index": 14,
+   "id": "14-receipt-of-impression",
+   "seconds": 10,
+   "character": true,
+   "note": "پول سوخته",
+   "image_path": "shots/shots/14-receipt-of-impression/image/14-receipt-of-impression.jpg"
+  },
+  {
+   "index": 15,
+   "id": "15-billboard-highway",
+   "seconds": 11,
+   "character": true,
+   "note": "بیلبورد در اتوبان",
+   "image_path": "shots/shots/15-billboard-highway/image/15-billboard-highway.jpg"
+  },
+  {
+   "index": 16,
+   "id": "16-one-person-target",
+   "seconds": 11,
+   "character": true,
+   "note": "هدف‌گیری دقیق",
+   "image_path": "shots/shots/16-one-person-target/image/16-one-person-target.jpg"
+  },
+  {
+   "index": 17,
+   "id": "17-two-stacks-cost",
+   "seconds": 10,
+   "character": false,
+   "note": "هزار هدف‌دار vs میلیون بی‌هدف",
+   "image_path": "shots/shots/17-two-stacks-cost/image/17-two-stacks-cost.jpg"
+  },
+  {
+   "index": 18,
+   "id": "18-what-they-sell",
+   "seconds": 9,
+   "character": true,
+   "note": "دو چیز می‌فروشند",
+   "image_path": "shots/shots/18-what-they-sell/image/18-what-they-sell.jpg"
+  },
+  {
+   "index": 19,
+   "id": "19-cpm-meter",
+   "seconds": 9,
+   "character": true,
+   "note": "واحد صنعت",
+   "image_path": "shots/shots/19-cpm-meter/image/19-cpm-meter.jpg"
+  },
+  {
+   "index": 20,
+   "id": "20-signals-funnel",
+   "seconds": 10,
+   "character": true,
+   "note": "سیگنال‌ها",
+   "image_path": "shots/shots/20-signals-funnel/image/20-signals-funnel.jpg"
+  },
+  {
+   "index": 21,
+   "id": "21-scroll-of-one-night",
+   "seconds": 10,
+   "character": true,
+   "note": "یک شب اسکرول",
+   "image_path": "shots/shots/21-scroll-of-one-night/image/21-scroll-of-one-night.jpg"
+  },
+  {
+   "index": 22,
+   "id": "22-data-portrait",
+   "seconds": 10,
+   "character": true,
+   "note": "چهرهٔ داده‌ای",
+   "image_path": "shots/shots/22-data-portrait/image/22-data-portrait.jpg"
+  },
+  {
+   "index": 23,
+   "id": "23-lookalike-crowd",
+   "seconds": 9,
+   "character": true,
+   "note": "مخاطب مشابه",
+   "image_path": "shots/shots/23-lookalike-crowd/image/23-lookalike-crowd.jpg"
+  },
+  {
+   "index": 24,
+   "id": "24-working-for-the-app",
+   "seconds": 11,
+   "character": true,
+   "note": "اسکرول = کار",
+   "image_path": "shots/shots/24-working-for-the-app/image/24-working-for-the-app.jpg"
+  },
+  {
+   "index": 25,
+   "id": "25-contract-with-screen",
+   "seconds": 10,
+   "character": true,
+   "note": "معاملهٔ پنهان",
+   "image_path": "shots/shots/25-contract-with-screen/image/25-contract-with-screen.jpg"
+  },
+  {
+   "index": 26,
+   "id": "26-free-is-not-free",
+   "seconds": 10,
+   "character": true,
+   "note": "مجانی یعنی چی",
+   "image_path": "shots/shots/26-free-is-not-free/image/26-free-is-not-free.jpg"
+  },
+  {
+   "index": 27,
+   "id": "27-meta-revenue-chart",
+   "seconds": 11,
+   "character": true,
+   "note": "درآمد متا",
+   "image_path": "shots/shots/27-meta-revenue-chart/image/27-meta-revenue-chart.jpg"
+  },
+  {
+   "index": 28,
+   "id": "28-ninety-eight-percent",
+   "seconds": 10,
+   "character": true,
+   "note": "۹۸٪ از تبلیغ",
+   "image_path": "shots/shots/28-ninety-eight-percent/image/28-ninety-eight-percent.jpg"
+  },
+  {
+   "index": 29,
+   "id": "29-document-with-citation",
+   "seconds": 9,
+   "character": true,
+   "note": "سند",
+   "image_path": "shots/shots/29-document-with-citation/image/29-document-with-citation.jpg"
+  },
+  {
+   "index": 30,
+   "id": "30-money-pipe",
+   "seconds": 10,
+   "character": true,
+   "note": "لولهٔ پول",
+   "image_path": "shots/shots/30-money-pipe/image/30-money-pipe.jpg"
+  },
+  {
+   "index": 31,
+   "id": "31-world-map-value",
+   "seconds": 10,
+   "character": true,
+   "note": "قیمت کاربر در کشورها",
+   "image_path": "shots/shots/31-world-map-value/image/31-world-map-value.jpg"
+  },
+  {
+   "index": 32,
+   "id": "32-user-worth-split",
+   "seconds": 10,
+   "character": true,
+   "note": "درآمد سرانه",
+   "image_path": "shots/shots/32-user-worth-split/image/32-user-worth-split.jpg"
+  },
+  {
+   "index": 33,
+   "id": "33-two-cities",
+   "seconds": 9,
+   "character": true,
+   "note": "دو بازار",
+   "image_path": "shots/shots/33-two-cities/image/33-two-cities.jpg"
+  },
+  {
+   "index": 34,
+   "id": "34-regional-app-old",
+   "seconds": 9,
+   "character": true,
+   "note": "اپ ده سال عقب",
+   "image_path": "shots/shots/34-regional-app-old/image/34-regional-app-old.jpg"
+  },
+  {
+   "index": 35,
+   "id": "35-advertiser-wallet",
+   "seconds": 9,
+   "character": true,
+   "note": "جیب آگهی‌دهنده",
+   "image_path": "shots/shots/35-advertiser-wallet/image/35-advertiser-wallet.jpg"
+  },
+  {
+   "index": 36,
+   "id": "36-purchasing-power",
+   "seconds": 10,
+   "character": true,
+   "note": "قدرت خرید",
+   "image_path": "shots/shots/36-purchasing-power/image/36-purchasing-power.jpg"
+  },
+  {
+   "index": 37,
+   "id": "37-inequality-of-data",
+   "seconds": 10,
+   "character": true,
+   "note": "نابرابری داده",
+   "image_path": "shots/shots/37-inequality-of-data/image/37-inequality-of-data.jpg"
+  },
+  {
+   "index": 38,
+   "id": "38-three-traps-row",
+   "seconds": 10,
+   "character": true,
+   "note": "سه تله",
+   "image_path": "shots/shots/38-three-traps-row/image/38-three-traps-row.jpg"
+  },
+  {
+   "index": 39,
+   "id": "39-endless-feed",
+   "seconds": 10,
+   "character": true,
+   "note": "انتهای فید نیست",
+   "image_path": "shots/shots/39-endless-feed/image/39-endless-feed.jpg"
+  },
+  {
+   "index": 40,
+   "id": "40-hourglass-coins",
+   "seconds": 10,
+   "character": true,
+   "note": "تلهٔ زمان",
+   "image_path": "shots/shots/40-hourglass-coins/image/40-hourglass-coins.jpg"
+  },
+  {
+   "index": 41,
+   "id": "41-anger-loop",
+   "seconds": 10,
+   "character": false,
+   "note": "تلهٔ الگوریتم",
+   "image_path": "shots/shots/41-anger-loop/image/41-anger-loop.jpg"
+  },
+  {
+   "index": 42,
+   "id": "42-notification-flood",
+   "seconds": 10,
+   "character": true,
+   "note": "سیل اعلان",
+   "image_path": "shots/shots/42-notification-flood/image/42-notification-flood.jpg"
+  },
+  {
+   "index": 43,
+   "id": "43-question-before-install",
+   "seconds": 10,
+   "character": true,
+   "note": "قاعدهٔ یک‌خطی",
+   "image_path": "shots/shots/43-question-before-install/image/43-question-before-install.jpg"
+  },
+  {
+   "index": 44,
+   "id": "44-privacy-settings",
+   "seconds": 10,
+   "character": true,
+   "note": "باز کردن تنظیمات",
+   "image_path": "shots/shots/44-privacy-settings/image/44-privacy-settings.jpg"
+  },
+  {
+   "index": 45,
+   "id": "45-notifications-off",
+   "seconds": 9,
+   "character": true,
+   "note": "اعلان‌ها خاموش",
+   "image_path": "shots/shots/45-notifications-off/image/45-notifications-off.jpg"
+  },
+  {
+   "index": 46,
+   "id": "46-phone-face-down-tea",
+   "seconds": 11,
+   "character": true,
+   "note": "گذاشتن گوشی",
+   "image_path": "shots/shots/46-phone-face-down-tea/image/46-phone-face-down-tea.jpg"
+  },
+  {
+   "index": 47,
+   "id": "47-youtube-vs-instagram",
+   "seconds": 12,
+   "character": true,
+   "note": "قلاب قسمت بعد",
+   "image_path": "shots/shots/47-youtube-vs-instagram/image/47-youtube-vs-instagram.jpg"
+  },
+  {
+   "index": 48,
+   "id": "48-character-cta",
+   "seconds": 12,
+   "character": true,
+   "note": "دعوت پایانی",
+   "image_path": "shots/shots/48-character-cta/image/48-character-cta.jpg"
+  }
+ ],
+ "total_seconds": 490,
+ "segments": [
+  {
+   "id": "s01",
+   "title": "هوک",
+   "shots": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "dur": 36.17
+  },
+  {
+   "id": "s02",
+   "title": "نقشهٔ سه‌لایه",
+   "shots": [
+    5,
+    6,
+    7
+   ],
+   "dur": 34.97
+  },
+  {
+   "id": "s03",
+   "title": "لایهٔ اول: حراج",
+   "shots": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+   ],
+   "dur": 70.46
+  },
+  {
+   "id": "s04",
+   "title": "چرا هدف‌گیری همه‌چیز است",
+   "shots": [
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "dur": 44.5
+  },
+  {
+   "id": "s05",
+   "title": "لایهٔ دوم: چیزی که از تو می‌داند",
+   "shots": [
+    20,
+    21,
+    22,
+    23
+   ],
+   "dur": 37.22
+  },
+  {
+   "id": "s06",
+   "title": "تو کارگر هم هستی",
+   "shots": [
+    24,
+    25,
+    26
+   ],
+   "dur": 33.17
+  },
+  {
+   "id": "s07",
+   "title": "سند و عدد",
+   "shots": [
+    27,
+    28,
+    29,
+    30
+   ],
+   "dur": 35.93
+  },
+  {
+   "id": "s08",
+   "title": "هر کاربر یک قیمت نیست",
+   "shots": [
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37
+   ],
+   "dur": 73.61
+  },
+  {
+   "id": "s09",
+   "title": "سه تله",
+   "shots": [
+    38,
+    39,
+    40,
+    41,
+    42
+   ],
+   "dur": 46.58
+  },
+  {
+   "id": "s10",
+   "title": "یک قاعده",
+   "shots": [
+    43,
+    44,
+    45,
+    46
+   ],
+   "dur": 43.42
+  },
+  {
+   "id": "s11",
+   "title": "قلاب قسمت بعد",
+   "shots": [
+    47,
+    48
+   ],
+   "dur": 26.3
+  }
+ ],
+ "audio": {
+  "narration": "audio/narration.mp3",
+  "music": "../../shared/music/curiosity.mp3",
+  "mix": "audio/mix.mp3",
+  "bed": "audio/bed.mp3"
+ },
+ "slug": "ep01-instagram-money",
+ "title": "قسمت ۱ — اینستاگرام چطور پول درمی‌آورد؟",
+ "number": 1,
+ "channel": "از هر دری",
+ "handle": "@AzHarDari",
+ "short_title": "اینستاگرام چطور پول درمی‌آورد؟",
+ "outro_line": "قسمت بعد: چرا یوتیوب پول می‌دهد و اینستاگرام نمی‌دهد؟"
+}

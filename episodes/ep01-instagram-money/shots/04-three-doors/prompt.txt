@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet.png: handsome Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, dark teal overshirt open over a cream t-shirt, thin silver chain, wristwatch. Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: seen from behind, centred, mid-stride toward the doors, one hand already on the teal door handle — this is the only back view in the video
+
+Three tall doors stand in an empty cream room: teal, coral and charcoal. Light spills from under each one — glowing ad cards behind the first, data dots behind the second, tiny human silhouettes behind the third. He stands in front of them with his back to us, hand raised to open the first.
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: سه لایه  |  BIG NUMBER, very large, charcoal or coral: ۳
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC background, deep teal #12545A, coral #E9705B, charcoal #2B2F33, tiny amber accent. Cinematic 16:9, one idea per frame, strong focal point, room for a caption at the bottom. No watermark, no logo, no English words, no gibberish letters.

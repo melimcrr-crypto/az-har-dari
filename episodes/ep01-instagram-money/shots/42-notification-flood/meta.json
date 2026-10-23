@@ -1,0 +1,8 @@
+{
+ "index": 42,
+ "id": "42-notification-flood",
+ "seconds": 10,
+ "character": true,
+ "note": "سیل اعلان",
+ "image_path": "shots/42-notification-flood/image/42-notification-flood.png"
+}

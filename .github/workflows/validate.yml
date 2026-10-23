@@ -1,0 +1,37 @@
+name: Validate shots
+
+on:
+  push:
+    paths:
+      - 'episodes/**/shots/**'
+      - 'episodes/**/episode.json'
+      - 'shared/scripts/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب Pillow
+        run: python -m pip install --upgrade pip pillow
+
+      - name: گزارش وضعیت همهٔ قسمت‌ها
+        run: |
+          for ep in episodes/*/; do
+            echo "=== $ep"
+            python shared/scripts/check_missing.py "$ep" || true
+          done
+
+      - name: بررسی قواعد تصویر (اندازه، وزن، نام)
+        run: python shared/scripts/lint_images.py

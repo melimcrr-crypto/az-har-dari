@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet.png: handsome Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, dark teal overshirt open over a cream t-shirt, thin silver chain, wristwatch. Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: he stands on a stepladder at the right, reaching up to pin a tag, seen in profile
+
+A stylized world map painted on a wall; over each region hangs a different-sized paper price tag, big in the north, tiny in the south. Pins and strings connect them. He stands on a ladder hanging one more tag.
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: قیمتِ هر کاربر  |  BIG NUMBER, very large, charcoal or coral: ۱۰×
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC background, deep teal #12545A, coral #E9705B, charcoal #2B2F33, tiny amber accent. Cinematic 16:9, one idea per frame, strong focal point, room for a caption at the bottom. No watermark, no logo, no English words, no gibberish letters.

@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet.png: handsome Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, dark teal overshirt open over a cream t-shirt, thin silver chain, wristwatch. Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: he stands at the right edge in half-profile, upper body only, one finger tapping the sponsored post on the giant screen
+
+A huge phone screen filling the frame like a window, showing a realistic social feed: photos of food, a wedding, a cat, a gym selfie, and one clearly marked sponsored post in the middle with a coral tag. Crisp UI details: like counts, small avatars, story circles. He stands to the side, pointing at the sponsored post.
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: تبلیغ  |  BIG NUMBER, very large, charcoal or coral: میان پست‌ها
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC background, deep teal #12545A, coral #E9705B, charcoal #2B2F33, tiny amber accent. Cinematic 16:9, one idea per frame, strong focal point, room for a caption at the bottom. No watermark, no logo, no English words, no gibberish letters.

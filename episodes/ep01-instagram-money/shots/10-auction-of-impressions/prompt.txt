@@ -1,0 +1,9 @@
+CHARACTER — he must be in this image, drawn in the SAME style and with the SAME face as character_sheet.png: handsome Iranian man, 27, slim athletic, sharp jawline, light designer stubble, thick dark-brown hair in a soft quiff, dark teal overshirt open over a cream t-shirt, thin silver chain, wristwatch. Do not change his age, hair, clothes or face.
+
+HIS POSE AND PLACEMENT: he sits in the front row at the left, waist-up, paddle raised high, looking toward the podium with a determined grin
+
+A dim auction hall where the auctioneer's podium is a giant phone; buyers in the front rows raise blank bidding paddles, warm spotlights from above, dust in the air. He sits in the front row holding a paddle, joining in.
+
+PERSIAN TEXT INSIDE THE IMAGE — render it exactly, right-to-left, in a bold Persian sans-serif with correct letter joining, no missing dots, no mirrored letters, no extra words: مزایده  |  BIG NUMBER, very large, charcoal or coral: چند میلی‌ثانیه
+
+VISUAL STYLE: detailed editorial illustration for a documentary explainer, rich scene with real objects and visible texture, soft paper grain, restrained cel shading, confident linework. Palette: warm cream #F6EEDC background, deep teal #12545A, coral #E9705B, charcoal #2B2F33, tiny amber accent. Cinematic 16:9, one idea per frame, strong focal point, room for a caption at the bottom. No watermark, no logo, no English words, no gibberish letters.

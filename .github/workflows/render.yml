@@ -1,0 +1,70 @@
+name: Render episode
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: 'پوشهٔ قسمت (مثلاً ep01-instagram-money)'
+        required: true
+        default: 'ep01-instagram-money'
+      crf:
+        description: 'کیفیت (کمتر = بهتر، ۱۸ تا ۲۳)'
+        required: true
+        default: '20'
+      release:
+        description: 'بارگذاری خروجی روی Releases؟'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب پیش‌نیازها
+        run: |
+          python -m pip install --upgrade pip pillow
+          ffmpeg -version >/dev/null 2>&1 || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
+          ffmpeg -version | head -1
+
+      - name: چک کردن کامل بودن نماها
+        run: python shared/scripts/check_missing.py "episodes/${{ inputs.episode }}"
+
+      - name: زمان‌بندی از صدای واقعی
+        run: python shared/scripts/build_timings.py "episodes/${{ inputs.episode }}"
+
+      - name: ساخت bed و میکس
+        run: python shared/scripts/prepare_audio.py "episodes/${{ inputs.episode }}"
+
+      - name: رندر
+        run: python shared/scripts/render.py "episodes/${{ inputs.episode }}" --crf "${{ inputs.crf }}"
+
+      - name: آپلود آرتیفکت
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.episode }}
+          path: episodes/${{ inputs.episode }}/output/*.mp4
+          retention-days: 14
+
+      - name: انتشار روی Releases
+        if: ${{ inputs.release }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.episode }}-v${{ github.run_number }}
+          name: '${{ inputs.episode }} — build ${{ github.run_number }}'
+          body: |
+            رندر خودکار از کامیت `${{ github.sha }}`
+            ورودی: `${{ inputs.episode }}` · CRF `${{ inputs.crf }}`
+          files: episodes/${{ inputs.episode }}/output/*.mp4
+          prerelease: true

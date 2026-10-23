@@ -1,0 +1,12 @@
+work/
+__pycache__/
+.DS_Store
+*.tmp
+
+# فایل‌های تولیدی (روی رانر ساخته می‌شوند)
+episodes/*/audio/narration.mp3
+episodes/*/audio/bed.mp3
+episodes/*/audio/mix.mp3
+episodes/*/output/
+episodes/*/timings.json
+episodes/*/audio/*.wav
