@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       episode:
+        description: 'پوشهٔ قسمت'
         required: true
         default: 'episodes/ep01-instagram-money'
       engines:
+        description: 'موتورها با کاما'
         required: true
         default: 'edge:fa-IR-FaridNeural,piper:ganji'
 
@@ -41,21 +43,7 @@ jobs:
           ls -la out/*
 
       - name: خلاصه
-        run: |
-          {
-            echo "# روایت کامل با موتورهای مختلف"
-            for f in out/*/report.json; do
-              python - "$f" <<'PY'
-import json, sys
-r = json.load(open(sys.argv[1]))
-print(f"\n**{r['engine']}** — صدا {r['total_audio_seconds']}s · ساخت {r['total_build_seconds']}s · {r['total_chars']} کاراکتر")
-print('| بخش | ثانیه | ساخت |')
-print('|---|---|---|')
-for s in r['segments']:
-    print(f"| {s['id']} | {s['seconds']} | {s['build_seconds']}s |")
-PY
-            done
-          } >> "$GITHUB_STEP_SUMMARY"
+        run: python shared/scripts/tts/summary.py >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         with:
