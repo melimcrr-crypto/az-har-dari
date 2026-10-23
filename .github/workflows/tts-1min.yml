@@ -1,0 +1,66 @@
+name: TTS one minute
+
+on:
+  workflow_dispatch:
+    inputs:
+      voices:
+        description: 'صداهای مرجع با کاما (فایل‌های پوشهٔ samples مدل)'
+        required: true
+        default: 'prompt_hello.wav,prompt_news_paragraph.wav'
+
+permissions:
+  contents: read
+
+jobs:
+  sample:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      HF_HOME: /home/runner/hf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: نصب
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install imageio-ffmpeg soundfile
+          mkdir -p /home/runner/bin
+          ln -sf "$(python -c 'import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())')" /home/runner/bin/ffmpeg
+          echo "/home/runner/bin" >> "$GITHUB_PATH"
+          python -m pip install "pocket-tts @ git+https://github.com/mallahyari/pocket-tts@main"
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers
+
+      - name: منابع مدل
+        run: |
+          mkdir -p /tmp/p2 && cd /tmp/p2
+          for f in normalize_fa.py model.yaml; do
+            curl -sL -O "https://huggingface.co/mehdi-hf/pocket-tts-farsi-v2/resolve/main/$f"
+          done
+          for v in prompt_hello.wav prompt_news_paragraph.wav prompt_short_sentence.wav; do
+            curl -sL -O "https://huggingface.co/mehdi-hf/pocket-tts-farsi-v2/resolve/main/samples/$v"
+          done
+          ls -la
+
+      - name: ساخت یک دقیقه با هر صدا
+        run: |
+          IFS=',' read -ra V <<< "${{ inputs.voices }}"
+          for v in "${V[@]}"; do
+            tag=$(basename "$v" .wav)
+            echo "=== $v"
+            VOICE="/tmp/p2/$v" PYTHONPATH=/tmp/p2 python shared/scripts/tts/pocket_v2_long.py \
+              out/$tag --voice "/tmp/p2/$v" --tag "$tag" || echo "FAILED $v"
+          done
+          ls -R out || true
+
+      - name: گزارش
+        run: python shared/scripts/tts/summary_1min.py >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tts-1min
+          path: out
+          retention-days: 14
